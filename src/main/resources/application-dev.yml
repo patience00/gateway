@@ -1,0 +1,32 @@
+server:
+  port: 8770
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    database: 1
+    password: ${REDIS_PASSWORD}
+    timeout: 2000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

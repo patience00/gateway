@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: service-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: blog
+          uri: lb://blog
+          predicates:
+            - Path=/blog/**
+          filters:
+            - StripPrefix=1
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER}:8848
+        username: ${NACOS_USER}
+        password: ${NACOS_PASSWORD}
+      config:
+        server-addr: ${NACOS_SERVER}:8848
+        username: ${NACOS_USER}
+        password: ${NACOS_PASSWORD}
+
+
+
