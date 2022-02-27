@@ -4,20 +4,6 @@ spring:
   application:
     name: service-gateway
   cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      default-filters:
-        - StripPrefix=1
-
-#      routes:
-#        - id: blog
-#          uri: lb://blog
-#          predicates:
-#            - Path=/blog/**
-#          filters:
-#            - StripPrefix=1
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER}:8848
@@ -32,6 +18,15 @@ spring:
         namespace: public
         group: DEFAULT_GROUP
 
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
 
 
 
