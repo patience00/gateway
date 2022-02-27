@@ -5,22 +5,38 @@ spring:
     name: service-gateway
   cloud:
     gateway:
-      routes:
-        - id: blog
-          uri: lb://blog
-          predicates:
-            - Path=/blog/**
-          filters:
-            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        - StripPrefix=1
+
+#      routes:
+#        - id: blog
+#          uri: lb://blog
+#          predicates:
+#            - Path=/blog/**
+#          filters:
+#            - StripPrefix=1
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER}:8848
         username: ${NACOS_USER}
         password: ${NACOS_PASSWORD}
+        namespace: public
       config:
         server-addr: ${NACOS_SERVER}:8848
         username: ${NACOS_USER}
         password: ${NACOS_PASSWORD}
+        name: service-gateway
+        namespace: public
+        group: DEFAULT_GROUP
+
+
+
+
+
+
 
 
 
