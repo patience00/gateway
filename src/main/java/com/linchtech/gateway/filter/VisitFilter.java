@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -45,13 +44,9 @@ public class VisitFilter implements GlobalFilter, Ordered {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @Value("${spring.profiles.active}")
-    private String active;
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        if (!active.equals("dev")) {
             List<String> headerValue = request.getHeaders().get("X-Forwarder-For");
             log.info("nginx ip :{}", headerValue);
             String ip = headerValue.get(0);
@@ -99,7 +94,6 @@ public class VisitFilter implements GlobalFilter, Ordered {
                 e.printStackTrace();
             }
 
-        }
         return chain.filter(exchange.mutate().request(request).build());
     }
 

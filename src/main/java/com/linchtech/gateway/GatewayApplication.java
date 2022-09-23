@@ -2,11 +2,9 @@ package com.linchtech.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @SpringCloudApplication
-@EnableDiscoveryClient
 @RefreshScope
 public class GatewayApplication {
 

@@ -1,9 +1,8 @@
 package com.linchtech.gateway.config;
 
+import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
@@ -30,6 +28,8 @@ public class DynamicRouteServiceImplByNacos {
     private final NacosConfigProperties nacosConfigProperties;
     @Autowired
     private DynamicRouteServiceImpl dynamicRouteService;
+    @Autowired
+    private NacosConfigManager nacosConfigManager;
     private ConfigService configService;
 
     @Value("${spring.cloud.nacos.config.name}")
@@ -39,7 +39,7 @@ public class DynamicRouteServiceImplByNacos {
     public void init() {
         log.info("gateway route init...");
         try {
-            configService = initConfigService();
+            configService = nacosConfigManager.getConfigService();
             if (configService == null) {
                 log.warn("initConfigService fail");
                 return;
@@ -85,20 +85,4 @@ public class DynamicRouteServiceImplByNacos {
         }
     }
 
-    /**
-     * 初始化网关路由 nacos config
-     *
-     * @return
-     */
-    private ConfigService initConfigService() {
-        try {
-            Properties properties = new Properties();
-            properties.setProperty(PropertyKeyConst.NAMESPACE, nacosConfigProperties.getNamespace());
-            properties.setProperty(PropertyKeyConst.SERVER_ADDR, nacosConfigProperties.getServerAddr());
-            return configService = NacosFactory.createConfigService(properties);
-        } catch (Exception e) {
-            log.error("初始化网关路由时发生错误", e);
-            return null;
-        }
-    }
 }
